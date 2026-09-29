@@ -4,83 +4,97 @@
     ViewData["Title"] = "Главная";
 }
 
-<section class="hero-section">
+<section class="home-hero">
     <div class="hero-copy">
-        <p class="eyebrow">Minecraft 1.12.2 / Forge / Industrial Pack</p>
-        <h1>LITEFACTORY</h1>
-        <h2>Твой мир. Твоя сборка. Твоя фабрика.</h2>
+        <p class="eyebrow">LITEFACTORY PROJECT</p>
+        <h1>LIGHT FACTORY</h1>
+        <p class="hero-kicker">Minecraft 1.12.2 industrial modpack</p>
         <p class="hero-text">
-            LiteFactory — техническая экосистема вокруг сборки Light Factory: аккаунт, лаунчер,
-            установка сборки и будущая проектная инфраструктура в одном направлении.
+            Технологическая сборка Minecraft 1.12.2 про автоматизацию,
+            энергетику и развитие огромной промышленной базы.
         </p>
+
+        <div class="tag-row hero-tags" aria-label="Ключевые характеристики">
+            <span>MINECRAFT 1.12.2</span>
+            <span>FORGE 14.23.5.2860</span>
+            <span>INDUSTRIAL</span>
+            <span>AUTOMATION</span>
+            <span>TECH</span>
+        </div>
+
         <div class="hero-actions">
-            @if (User.Identity?.IsAuthenticated == true)
-            {
-                <a class="button primary" asp-page="/Account">ЛИЧНЫЙ КАБИНЕТ</a>
-                <span class="button disabled">LAUNCHER DOWNLOAD — СКОРО</span>
-            }
-            else
-            {
-                <a class="button primary" asp-page="/Register">СОЗДАТЬ АККАУНТ</a>
-                <a class="button secondary" asp-page="/Login">ВОЙТИ</a>
-            }
+            <span class="button disabled">LAUNCHER — СКОРО</span>
+            <a class="button secondary" asp-page="/Packs">ПОДРОБНЕЕ О СБОРКЕ</a>
         </div>
     </div>
-    <div class="hero-panel">
+
+    <aside class="hero-panel alpha-art-card" aria-label="Light Factory artwork">
         <div class="hero-artwork">
-            <img src="~/images/light-factory-hero.png" alt="Light Factory industrial artwork" />
+            <img src="~/images/light-factory-alpha.png" alt="Light Factory industrial factory scene" />
         </div>
         <div class="system-readout">
             <strong>LIGHT FACTORY</strong>
-            <span>Runtime ready for launcher ecosystem</span>
+            <span>Minecraft 1.12.2 / Forge 14.23.5.2860 / Pack 0.1.1</span>
         </div>
-    </div>
+    </aside>
 </section>
 
-<section class="section-grid">
-    <article class="feature-card build-card">
-        <p class="eyebrow">Первая сборка</p>
-        <h2>LIGHT FACTORY</h2>
-        <p class="muted">Technical / industrial modpack. Automation, machines, production chains and progression.</p>
-        <div class="spec-grid">
-            <div><span>Minecraft</span><strong>1.12.2</strong></div>
-            <div><span>Forge</span><strong>14.23.5.2860</strong></div>
-            <div><span>Pack</span><strong>0.1.1</strong></div>
-        </div>
+<section class="lf-intro-section">
+    <article class="feature-card intro-card">
+        <p class="eyebrow">Что это</p>
+        <h2>Строй. Автоматизируй. Расширяй.</h2>
+        <p class="muted">
+            Light Factory строится вокруг индустриального прогресса: генерация энергии,
+            машины, автоматизация обработки ресурсов, хранение и логистика. Цель проста:
+            постепенно превратить стартовую базу в сложную производственную систему.
+        </p>
     </article>
 
-    <article class="feature-card">
-        <p class="eyebrow">Статус</p>
-        <h2>Launcher-first</h2>
-        <p class="muted">Установка и обновления сборки развиваются через LiteFactory Launcher. Сайт подключен к общей системе аккаунтов.</p>
+    <article class="feature-card status-card">
+        <p class="eyebrow">Alpha status</p>
+        <h2>Экосистема в разработке</h2>
+        <dl class="status-list">
+            <div>
+                <dt>LIGHT FACTORY</dt>
+                <dd>DEVELOPMENT</dd>
+            </div>
+            <div>
+                <dt>Launcher</dt>
+                <dd>ALPHA</dd>
+            </div>
+            <div>
+                <dt>Server</dt>
+                <dd>IN DEVELOPMENT</dd>
+            </div>
+            <div>
+                <dt>Public Beta</dt>
+                <dd>LATER</dd>
+            </div>
+        </dl>
     </article>
 </section>
 
-<section class="ecosystem-section">
+<section class="tech-section">
     <div class="section-heading">
-        <p class="eyebrow">Экосистема</p>
-        <h2>Один проект, несколько слоев</h2>
+        <p class="eyebrow">Технологии сборки</p>
+        <h2>Индустриальное ядро Light Factory</h2>
     </div>
-    <div class="ecosystem-grid">
+
+    <div class="tech-grid">
         <article>
-            <span>01</span>
-            <h3>WEBSITE</h3>
-            <p>Аккаунт, профиль и проектные страницы.</p>
+            <span>IC2</span>
+            <h3>ЭНЕРГЕТИКА</h3>
+            <p>IndustrialCraft 2 задает основу машин, энергии и промышленного развития.</p>
         </article>
         <article>
-            <span>02</span>
-            <h3>LAUNCHER</h3>
-            <p>Установка сборки, обновления и подготовка runtime.</p>
+            <span>TE</span>
+            <h3>АВТОМАТИЗАЦИЯ</h3>
+            <p>Thermal Expansion помогает строить обработку ресурсов и производственные цепочки.</p>
         </article>
         <article>
-            <span>03</span>
-            <h3>LIGHT FACTORY</h3>
-            <p>Техническая сборка Minecraft 1.12.2 на Forge.</p>
-        </article>
-        <article>
-            <span>04</span>
-            <h3>SERVER</h3>
-            <p>Будущая проектная multiplayer-инфраструктура.</p>
+            <span>AE2</span>
+            <h3>ХРАНЕНИЕ</h3>
+            <p>Applied Energistics 2 отвечает за цифровое хранение и логистику предметов.</p>
         </article>
     </div>
 </section>
