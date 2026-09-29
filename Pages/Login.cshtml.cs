@@ -1,4 +1,5 @@
 using LiteFactoryWeb.Services;
+using LiteFactoryWeb.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -52,6 +53,10 @@ public class LoginModel : PageModel
             new(ClaimTypes.Name, session.User.Nickname),
             new("nickname", session.User.Nickname)
         };
+        if (LiteFactoryRoles.IsKnown(session.User.Role))
+        {
+            claims.Add(new Claim(ClaimTypes.Role, session.User.Role));
+        }
 
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var properties = new AuthenticationProperties

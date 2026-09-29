@@ -1,0 +1,76 @@
+@page
+@model LiteFactoryWeb.Pages.AdminModel
+@{
+    ViewData["Title"] = "Админ";
+}
+
+<section class="content-page admin-page">
+    <div class="section-heading">
+        <p class="eyebrow">LiteFactory Admin</p>
+        <h1>ADMIN PANEL</h1>
+        <p class="muted">Управление аккаунтами LiteFactory.</p>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+    {
+        <div class="alert success">@Model.SuccessMessage</div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+    {
+        <div class="alert danger">@Model.ErrorMessage</div>
+    }
+
+    <div class="admin-summary" aria-label="Статистика аккаунтов">
+        <div><span>Total</span><strong>@Model.TotalCount</strong></div>
+        <div><span>USER</span><strong>@Model.UserCount</strong></div>
+        <div><span>DEVELOPER</span><strong>@Model.DeveloperCount</strong></div>
+        <div><span>ADMIN</span><strong>@Model.AdminCount</strong></div>
+    </div>
+
+    <div class="admin-table-wrap">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>НИК</th>
+                    <th>EMAIL</th>
+                    <th>РОЛЬ</th>
+                    <th>СТАТУС</th>
+                    <th>РЕГИСТРАЦИЯ</th>
+                    <th>ДЕЙСТВИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>
+                        <strong>@user.Nickname</strong>
+                        <span>@user.Id</span>
+                    </td>
+                    <td>@user.Email</td>
+                    <td><span class="role-badge role-@user.Role.ToLowerInvariant()">@user.Role</span></td>
+                    <td>
+                        <span class="state-badge @(user.IsActive ? "active" : "inactive")">
+                            @(user.IsActive ? "ACTIVE" : "INACTIVE")
+                        </span>
+                    </td>
+                    <td>@user.CreatedAtUtc.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>
+                        <form method="post" asp-page-handler="ChangeRole" class="role-form">
+                            <input type="hidden" name="UserId" value="@user.Id" />
+                            <select name="Role" aria-label="Роль пользователя @user.Nickname">
+                                @foreach (var role in Model.Roles)
+                                {
+                                    <option value="@role" selected="@(role == user.Role)">@role</option>
+                                }
+                            </select>
+                            <button class="button small" type="submit">СОХРАНИТЬ</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>

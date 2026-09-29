@@ -1,6 +1,6 @@
 namespace LiteFactoryWeb.Models;
 
-public sealed class LiteFactoryAccount
+public sealed class AdminUser
 {
     public Guid Id { get; set; }
 
@@ -8,7 +8,9 @@ public sealed class LiteFactoryAccount
 
     public string Nickname { get; set; } = "";
 
+    public string Role { get; set; } = "";
+
     public DateTimeOffset CreatedAtUtc { get; set; }
 
-    public string Role { get; set; } = "";
+    public bool IsActive { get; set; }
 }

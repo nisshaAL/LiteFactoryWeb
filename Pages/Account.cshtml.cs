@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
 
 namespace LiteFactoryWeb.Pages;
 
@@ -37,6 +38,11 @@ public class AccountModel : PageModel
         }
 
         Account = result.Value;
+        if (string.IsNullOrWhiteSpace(Account.Role))
+        {
+            Account.Role = User.FindFirstValue(ClaimTypes.Role) ?? "";
+        }
+
         return Page();
     }
 }

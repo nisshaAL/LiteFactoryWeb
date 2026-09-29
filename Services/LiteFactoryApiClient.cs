@@ -76,6 +76,11 @@ public sealed class LiteFactoryApiClient
                 return LiteFactoryApiResult<LiteFactoryAuthSession>.Error(account.ErrorMessage ?? "Не удалось загрузить профиль аккаунта.");
             }
 
+            if (!LiteFactoryRoles.IsKnown(account.Value.Role) && LiteFactoryRoles.IsKnown(auth.User.Role))
+            {
+                account.Value.Role = auth.User.Role;
+            }
+
             return LiteFactoryApiResult<LiteFactoryAuthSession>.Ok(new LiteFactoryAuthSession
             {
                 AccessToken = auth.AccessToken,
@@ -123,11 +128,108 @@ public sealed class LiteFactoryApiClient
         }
     }
 
+    public async Task<LiteFactoryApiResult<IReadOnlyList<AdminUser>>> GetAdminUsersAsync(
+        string accessToken,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            using var request = CreateAuthorizedRequest(HttpMethod.Get, "api/admin/users", accessToken);
+            using var response = await _httpClient.SendAsync(request, cancellationToken);
+            if (!response.IsSuccessStatusCode)
+            {
+                return LiteFactoryApiResult<IReadOnlyList<AdminUser>>.Error(await ReadAdminErrorAsync(response, "Не удалось загрузить список пользователей.", cancellationToken));
+            }
+
+            var users = await ReadJsonAsync<List<AdminUser>>(response, cancellationToken);
+            return users == null
+                ? LiteFactoryApiResult<IReadOnlyList<AdminUser>>.Error("LiteFactory API вернул некорректный ответ.")
+                : LiteFactoryApiResult<IReadOnlyList<AdminUser>>.Ok(users);
+        }
+        catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException)
+        {
+            return LiteFactoryApiResult<IReadOnlyList<AdminUser>>.Error("LiteFactory API временно недоступен.");
+        }
+        catch (JsonException)
+        {
+            return LiteFactoryApiResult<IReadOnlyList<AdminUser>>.Error("LiteFactory API вернул некорректный ответ.");
+        }
+    }
+
+    public async Task<LiteFactoryApiResult<AdminUser>> GetAdminUserAsync(
+        string accessToken,
+        Guid userId,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            using var request = CreateAuthorizedRequest(HttpMethod.Get, $"api/admin/users/{userId}", accessToken);
+            using var response = await _httpClient.SendAsync(request, cancellationToken);
+            if (!response.IsSuccessStatusCode)
+            {
+                return LiteFactoryApiResult<AdminUser>.Error(await ReadAdminErrorAsync(response, "Не удалось загрузить пользователя.", cancellationToken));
+            }
+
+            var user = await ReadJsonAsync<AdminUser>(response, cancellationToken);
+            return user == null
+                ? LiteFactoryApiResult<AdminUser>.Error("LiteFactory API вернул некорректный ответ.")
+                : LiteFactoryApiResult<AdminUser>.Ok(user);
+        }
+        catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException)
+        {
+            return LiteFactoryApiResult<AdminUser>.Error("LiteFactory API временно недоступен.");
+        }
+        catch (JsonException)
+        {
+            return LiteFactoryApiResult<AdminUser>.Error("LiteFactory API вернул некорректный ответ.");
+        }
+    }
+
+    public async Task<LiteFactoryApiResult<AdminUser>> ChangeUserRoleAsync(
+        string accessToken,
+        Guid userId,
+        string role,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            using var request = CreateAuthorizedRequest(HttpMethod.Put, $"api/admin/users/{userId}/role", accessToken);
+            var json = JsonSerializer.Serialize(new ChangeUserRoleRequest(role), JsonOptions);
+            request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            using var response = await _httpClient.SendAsync(request, cancellationToken);
+            if (!response.IsSuccessStatusCode)
+            {
+                return LiteFactoryApiResult<AdminUser>.Error(await ReadAdminErrorAsync(response, "Не удалось обновить роль пользователя.", cancellationToken));
+            }
+
+            var user = await ReadJsonAsync<AdminUser>(response, cancellationToken);
+            return user == null
+                ? LiteFactoryApiResult<AdminUser>.Error("LiteFactory API вернул некорректный ответ.")
+                : LiteFactoryApiResult<AdminUser>.Ok(user);
+        }
+        catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException)
+        {
+            return LiteFactoryApiResult<AdminUser>.Error("LiteFactory API временно недоступен.");
+        }
+        catch (JsonException)
+        {
+            return LiteFactoryApiResult<AdminUser>.Error("LiteFactory API вернул некорректный ответ.");
+        }
+    }
+
     private async Task<HttpResponseMessage> PostJsonAsync<T>(string path, T payload, CancellationToken cancellationToken)
     {
         var json = JsonSerializer.Serialize(payload, JsonOptions);
         using var content = new StringContent(json, Encoding.UTF8, "application/json");
         return await _httpClient.PostAsync(path, content, cancellationToken);
+    }
+
+    private static HttpRequestMessage CreateAuthorizedRequest(HttpMethod method, string path, string accessToken)
+    {
+        var request = new HttpRequestMessage(method, path);
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+        return request;
     }
 
     private static async Task<T?> ReadJsonAsync<T>(HttpResponseMessage response, CancellationToken cancellationToken)
@@ -150,9 +252,36 @@ public sealed class LiteFactoryApiClient
         }
     }
 
+    private static async Task<string> ReadAdminErrorAsync(HttpResponseMessage response, string fallback, CancellationToken cancellationToken)
+    {
+        if (response.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            return "Сессия администратора истекла. Войдите снова.";
+        }
+
+        if (response.StatusCode == HttpStatusCode.Forbidden)
+        {
+            return "Недостаточно прав для выполнения действия.";
+        }
+
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            return "Пользователь не найден.";
+        }
+
+        if (response.StatusCode == HttpStatusCode.Conflict)
+        {
+            return "Нельзя понизить роль последнего администратора.";
+        }
+
+        return await ReadApiErrorAsync(response, fallback, cancellationToken);
+    }
+
     private sealed record RegisterRequest(string Email, string Nickname, string Password);
 
     private sealed record LoginRequest(string Login, string Password);
+
+    private sealed record ChangeUserRoleRequest(string Role);
 
     private sealed class AuthResponse
     {

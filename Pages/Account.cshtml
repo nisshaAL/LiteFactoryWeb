@@ -34,6 +34,17 @@
                     <dd>@Model.Account.Email</dd>
                     <dt>Account ID</dt>
                     <dd>@Model.Account.Id</dd>
+                    <dt>Роль</dt>
+                    <dd>
+                        @if (!string.IsNullOrWhiteSpace(Model.Account.Role))
+                        {
+                            <span class="role-badge role-@Model.Account.Role.ToLowerInvariant()">@Model.Account.Role</span>
+                        }
+                        else
+                        {
+                            <span class="muted">-</span>
+                        }
+                    </dd>
                     <dt>Created</dt>
                     <dd>@Model.Account.CreatedAtUtc.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</dd>
                 </dl>

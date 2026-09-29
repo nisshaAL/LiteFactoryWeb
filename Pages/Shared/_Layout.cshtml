@@ -20,6 +20,10 @@
                 <a asp-page="/Index">ГЛАВНАЯ</a>
                 <a asp-page="/Packs">СБОРКИ</a>
                 <a asp-page="/News">НОВОСТИ</a>
+                @if (User.IsInRole("ADMIN"))
+                {
+                    <a asp-page="/Admin">АДМИН</a>
+                }
             </nav>
 
             <div class="account-nav">
