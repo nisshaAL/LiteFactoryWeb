@@ -1,0 +1,44 @@
+@page
+@model LiteFactoryWeb.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Создать аккаунт";
+}
+
+<section class="auth-page">
+    <div class="auth-card">
+        <p class="eyebrow">LiteFactory Account</p>
+        <h1>Создать аккаунт</h1>
+        <p class="muted">Аккаунт используется для сайта, лаунчера и будущей инфраструктуры LiteFactory.</p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert danger">@Model.ErrorMessage</div>
+        }
+
+        <form method="post" class="lf-form">
+            <label asp-for="Input.Nickname">NICKNAME</label>
+            <input asp-for="Input.Nickname" autocomplete="username" />
+            <span asp-validation-for="Input.Nickname"></span>
+
+            <label asp-for="Input.Email">EMAIL</label>
+            <input asp-for="Input.Email" autocomplete="email" />
+            <span asp-validation-for="Input.Email"></span>
+
+            <label asp-for="Input.Password">PASSWORD</label>
+            <input asp-for="Input.Password" type="password" autocomplete="new-password" />
+            <span asp-validation-for="Input.Password"></span>
+
+            <label asp-for="Input.ConfirmPassword">CONFIRM PASSWORD</label>
+            <input asp-for="Input.ConfirmPassword" type="password" autocomplete="new-password" />
+            <span asp-validation-for="Input.ConfirmPassword"></span>
+
+            <button class="button primary full" type="submit">СОЗДАТЬ АККАУНТ</button>
+        </form>
+
+        <p class="form-link">Уже есть аккаунт? <a asp-page="/Login">Войти</a></p>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

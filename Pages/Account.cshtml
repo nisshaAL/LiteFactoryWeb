@@ -1,0 +1,52 @@
+@page
+@model LiteFactoryWeb.Pages.AccountModel
+@{
+    ViewData["Title"] = "Личный кабинет";
+}
+
+<section class="account-page">
+    <div class="section-heading">
+        <p class="eyebrow">LiteFactory Account</p>
+        <h1>ЛИЧНЫЙ КАБИНЕТ</h1>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+    {
+        <div class="alert danger">@Model.ErrorMessage</div>
+    }
+
+    @if (Model.Account != null)
+    {
+        <div class="account-grid">
+            <article class="feature-card profile-card">
+                <div class="profile-top">
+                    <div>
+                        <span class="status-dot"></span>
+                        <span class="status-label">ACTIVE</span>
+                    </div>
+                    <form method="post" asp-page="/Logout">
+                        <button class="button secondary small" type="submit">ВЫЙТИ</button>
+                    </form>
+                </div>
+                <h2>@Model.Account.Nickname</h2>
+                <dl class="account-list">
+                    <dt>Email</dt>
+                    <dd>@Model.Account.Email</dd>
+                    <dt>Account ID</dt>
+                    <dd>@Model.Account.Id</dd>
+                    <dt>Created</dt>
+                    <dd>@Model.Account.CreatedAtUtc.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</dd>
+                </dl>
+            </article>
+
+            <article class="feature-card">
+                <p class="eyebrow">Build access</p>
+                <h2>LIGHT FACTORY</h2>
+                <p class="muted">Launcher integration available in development builds. Runtime installation, modpack updates and launch preparation are handled by LiteFactory Launcher.</p>
+                <div class="spec-grid single">
+                    <div><span>Status</span><strong>Development</strong></div>
+                </div>
+            </article>
+        </div>
+    }
+</section>

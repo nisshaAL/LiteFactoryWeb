@@ -1,0 +1,88 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Главная";
+}
+
+<section class="hero-section">
+    <div class="hero-copy">
+        <p class="eyebrow">Minecraft 1.12.2 / Forge / Industrial Pack</p>
+        <h1>LITEFACTORY</h1>
+        <h2>Твой мир. Твоя сборка. Твоя фабрика.</h2>
+        <p class="hero-text">
+            LiteFactory — техническая экосистема вокруг сборки Light Factory: аккаунт, лаунчер,
+            установка сборки и будущая проектная инфраструктура в одном направлении.
+        </p>
+        <div class="hero-actions">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a class="button primary" asp-page="/Account">ЛИЧНЫЙ КАБИНЕТ</a>
+                <span class="button disabled">LAUNCHER DOWNLOAD — СКОРО</span>
+            }
+            else
+            {
+                <a class="button primary" asp-page="/Register">СОЗДАТЬ АККАУНТ</a>
+                <a class="button secondary" asp-page="/Login">ВОЙТИ</a>
+            }
+        </div>
+    </div>
+    <div class="hero-panel">
+        <div class="machine-grid" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="system-readout">
+            <strong>LIGHT FACTORY</strong>
+            <span>Runtime ready for launcher ecosystem</span>
+        </div>
+    </div>
+</section>
+
+<section class="section-grid">
+    <article class="feature-card build-card">
+        <p class="eyebrow">Первая сборка</p>
+        <h2>LIGHT FACTORY</h2>
+        <p class="muted">Technical / industrial modpack. Automation, machines, production chains and progression.</p>
+        <div class="spec-grid">
+            <div><span>Minecraft</span><strong>1.12.2</strong></div>
+            <div><span>Forge</span><strong>14.23.5.2860</strong></div>
+            <div><span>Pack</span><strong>0.1.1</strong></div>
+        </div>
+    </article>
+
+    <article class="feature-card">
+        <p class="eyebrow">Статус</p>
+        <h2>Launcher-first</h2>
+        <p class="muted">Установка и обновления сборки развиваются через LiteFactory Launcher. Сайт подключен к общей системе аккаунтов.</p>
+    </article>
+</section>
+
+<section class="ecosystem-section">
+    <div class="section-heading">
+        <p class="eyebrow">Экосистема</p>
+        <h2>Один проект, несколько слоев</h2>
+    </div>
+    <div class="ecosystem-grid">
+        <article>
+            <span>01</span>
+            <h3>WEBSITE</h3>
+            <p>Аккаунт, профиль и проектные страницы.</p>
+        </article>
+        <article>
+            <span>02</span>
+            <h3>LAUNCHER</h3>
+            <p>Установка сборки, обновления и подготовка runtime.</p>
+        </article>
+        <article>
+            <span>03</span>
+            <h3>LIGHT FACTORY</h3>
+            <p>Техническая сборка Minecraft 1.12.2 на Forge.</p>
+        </article>
+        <article>
+            <span>04</span>
+            <h3>SERVER</h3>
+            <p>Будущая проектная multiplayer-инфраструктура.</p>
+        </article>
+    </div>
+</section>

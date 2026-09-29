@@ -1,0 +1,55 @@
+@using System.Security.Claims
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — LiteFactory</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="site-shell">
+        <header class="site-header">
+            <a class="brand" asp-page="/Index" aria-label="LiteFactory home">
+                <span class="brand-main">LITEFACTORY</span>
+                <span class="brand-sub">PROJECT</span>
+            </a>
+
+            <nav class="main-nav" aria-label="Main navigation">
+                <a asp-page="/Index">ГЛАВНАЯ</a>
+                <a asp-page="/Packs">СБОРКИ</a>
+                <a asp-page="/News">НОВОСТИ</a>
+            </nav>
+
+            <div class="account-nav">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    var nickname = User.FindFirstValue("nickname") ?? "LiteFactory";
+                    <span class="online-pill"><span></span>@nickname</span>
+                    <a class="nav-button ghost" asp-page="/Account">ЛИЧНЫЙ КАБИНЕТ</a>
+                    <form method="post" asp-page="/Logout" class="inline-form">
+                        <button class="nav-button" type="submit">ВЫЙТИ</button>
+                    </form>
+                }
+                else
+                {
+                    <a class="nav-button ghost" asp-page="/Login">ВОЙТИ</a>
+                    <a class="nav-button" asp-page="/Register">СОЗДАТЬ АККАУНТ</a>
+                }
+            </div>
+        </header>
+
+        <main>
+            @RenderBody()
+        </main>
+
+        <footer class="site-footer">
+            <span>LiteFactory Project</span>
+            <span>Account, launcher and Light Factory infrastructure in development.</span>
+        </footer>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

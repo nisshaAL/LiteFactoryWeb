@@ -1,0 +1,36 @@
+@page
+@model LiteFactoryWeb.Pages.LoginModel
+@{
+    ViewData["Title"] = "Войти";
+}
+
+<section class="auth-page">
+    <div class="auth-card">
+        <p class="eyebrow">LiteFactory Account</p>
+        <h1>Войти</h1>
+        <p class="muted">Используйте никнейм LiteFactory и пароль.</p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert danger">@Model.ErrorMessage</div>
+        }
+
+        <form method="post" class="lf-form">
+            <label asp-for="Input.Nickname">NICKNAME</label>
+            <input asp-for="Input.Nickname" autocomplete="username" />
+            <span asp-validation-for="Input.Nickname"></span>
+
+            <label asp-for="Input.Password">PASSWORD</label>
+            <input asp-for="Input.Password" type="password" autocomplete="current-password" />
+            <span asp-validation-for="Input.Password"></span>
+
+            <button class="button primary full" type="submit">ВОЙТИ</button>
+        </form>
+
+        <p class="form-link">Нет аккаунта? <a asp-page="/Register">Создать аккаунт</a></p>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
