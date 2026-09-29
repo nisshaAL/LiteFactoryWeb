@@ -185,10 +185,14 @@ main {
 .hero-section {
     min-height: calc(100vh - 170px);
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.75fr);
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
     align-items: center;
     gap: 48px;
     padding: 72px 0 56px;
+}
+
+.hero-copy {
+    min-width: 0;
 }
 
 .eyebrow {
@@ -208,9 +212,11 @@ p {
 
 .hero-copy h1 {
     margin-bottom: 12px;
-    font-size: clamp(56px, 9vw, 118px);
+    max-width: 100%;
+    font-size: clamp(48px, 7vw, 90px);
     line-height: 0.9;
     font-weight: 900;
+    white-space: nowrap;
 }
 
 .hero-copy h2 {
@@ -258,23 +264,22 @@ p {
         linear-gradient(135deg, rgba(255,255,255,0.08), transparent 42%);
 }
 
-.machine-grid {
-    position: relative;
+.hero-artwork {
+    position: absolute;
     z-index: 1;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-}
-
-.machine-grid span {
-    aspect-ratio: 1;
-    border: 1px solid rgba(255,255,255,0.08);
+    top: 28px;
+    right: 28px;
+    bottom: 116px;
+    left: 28px;
+    overflow: hidden;
     border-radius: 6px;
-    background: rgba(0,0,0,0.2);
 }
 
-.machine-grid span:nth-child(3n) {
-    background: rgba(245,158,11,0.16);
+.hero-artwork img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
 }
 
 .system-readout {
