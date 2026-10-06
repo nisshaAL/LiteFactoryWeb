@@ -160,6 +160,11 @@ input {
     min-height: 32px;
 }
 
+.button.compact {
+    min-height: 34px;
+    padding: 0 13px;
+}
+
 .online-pill {
     display: inline-flex;
     align-items: center;
@@ -560,6 +565,159 @@ p {
     gap: 12px;
 }
 
+.download-page {
+    display: grid;
+    gap: 20px;
+}
+
+.download-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.58fr);
+    gap: 20px;
+    align-items: stretch;
+}
+
+.download-copy,
+.download-card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, var(--card), var(--card-2));
+    box-shadow: var(--shadow);
+}
+
+.download-copy {
+    padding: clamp(28px, 5vw, 46px);
+}
+
+.download-copy h1 {
+    max-width: 840px;
+    margin-bottom: 12px;
+    font-size: clamp(42px, 6vw, 76px);
+    line-height: 0.92;
+    font-weight: 900;
+}
+
+.download-version {
+    margin-bottom: 18px;
+    color: var(--accent-2);
+    font-size: clamp(20px, 2.4vw, 30px);
+    font-weight: 850;
+}
+
+.download-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.download-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.download-meta span {
+    display: inline-flex;
+    min-height: 30px;
+    align-items: center;
+    padding: 0 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 850;
+}
+
+.download-meta:not(.secondary-meta) span:first-child {
+    color: var(--accent-2);
+    border-color: rgba(245,158,11,0.35);
+    background: rgba(245,158,11,0.1);
+}
+
+.secondary-meta {
+    margin-top: 14px;
+}
+
+.download-card {
+    display: grid;
+    align-content: center;
+    gap: 14px;
+    padding: 28px;
+    background:
+        radial-gradient(circle at 80% 18%, rgba(245,158,11,0.16), transparent 18rem),
+        linear-gradient(180deg, var(--card), var(--card-2));
+}
+
+.download-card h2 {
+    margin-bottom: 0;
+    font-size: clamp(28px, 3vw, 42px);
+}
+
+.download-card p {
+    margin-bottom: 0;
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+.download-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 20px;
+}
+
+.download-note {
+    margin: 18px 0 0;
+}
+
+.install-steps {
+    display: grid;
+    gap: 10px;
+    margin: 20px 0 0;
+    padding-left: 20px;
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+.install-steps span {
+    color: var(--text);
+    font-weight: 800;
+}
+
+.download-grid strong {
+    color: var(--text);
+}
+
+.checksum-card {
+    padding: 28px;
+}
+
+.checksum-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.checksum-grid p {
+    margin-bottom: 0;
+}
+
+.checksum-block {
+    display: block;
+    margin-top: 16px;
+    padding: 14px;
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(0,0,0,0.22);
+    color: var(--accent-2);
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
 .ecosystem-section,
 .content-page,
 .account-page,
@@ -878,7 +1036,10 @@ p {
     .section-grid,
     .lf-intro-section,
     .account-grid,
-    .pack-card {
+    .pack-card,
+    .download-hero,
+    .download-grid,
+    .checksum-grid {
         grid-template-columns: 1fr;
     }
 
@@ -936,9 +1097,14 @@ p {
     }
 
     .pack-title-row,
-    .pack-actions {
+    .pack-actions,
+    .download-actions {
         display: grid;
         justify-content: stretch;
+    }
+
+    .download-copy h1 {
+        font-size: clamp(36px, 13vw, 54px);
     }
 
     .pack-artwork {
