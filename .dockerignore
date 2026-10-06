@@ -1,0 +1,17 @@
+.git
+.gitignore
+.dockerignore
+Dockerfile
+
+bin/
+obj/
+.vs/
+.vscode/
+publish/
+
+.env
+.env.*
+*.user
+*.suo
+appsettings.Local.json
+appsettings.*.local.json
